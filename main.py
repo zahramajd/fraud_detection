@@ -18,4 +18,29 @@ data=pd.concat([x_train,y_train])
 # plt.show()
 
 
+# Drop repeated features
+data = data.drop(['hour_b', 'total'],axis=1)
+
+
 # handle Imbalanced data problem
+
+
+# Decision tree
+from sklearn.tree import DecisionTreeClassifier
+dtc=DecisionTreeClassifier(max_depth=5)
+dtc.fit(x_train,y_train)
+
+y_pred_dtc=dtc.predict(x_test)
+
+# Random forest
+
+from sklearn.ensemble import RandomForestClassifier
+rfc = RandomForestClassifier()
+rfc = rfc.fit(x_train, y_train)
+
+y_pred_rfc = rfc.predict(x_train)
+
+# Neural network
+
+
+# Logistic regression
