@@ -50,4 +50,7 @@ y_pred_nn=nn.predict(x_test)
 
 # Logistic regression
 from sklearn.linear_model import LogisticRegression
+lr=LogisticRegression()
+lr.fit(x_train, y_train.values.ravel())
 
+y_pred_lr=lr.predict(x_test)
