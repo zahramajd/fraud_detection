@@ -6,6 +6,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+
 
 
 # Load data
@@ -23,6 +25,15 @@ data = pd.concat([x_train, y_train])
 # # Draw the heatmap using seaborns
 # sns.heatmap(corr, vmax=.8, square=True)
 # plt.show()
+
+# Split data to validation and train
+train_percent=0.66
+validate_percent=0.33
+m = len(x_train)
+x_train=x_train[:int(train_percent*m)]
+x_validation=x_train[int(validate_percent*m):]
+y_train=y_train[:int(train_percent*m)]
+y_validation=y_train[int(validate_percent*m):]
 
 
 # Drop repeated and unnecessary features
