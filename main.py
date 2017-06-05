@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
@@ -7,7 +8,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-
 
 
 # Load data
@@ -35,11 +35,20 @@ x_validation=x_train[int(validate_percent*m):]
 y_train=y_train[:int(train_percent*m)]
 y_validation=y_train[int(validate_percent*m):]
 
-
 # Drop repeated and unnecessary features
-data = data.drop(['hour_b', 'total', 'customerAttr_b', 'state'], axis=1)
-x_train = x_train.drop(['hour_b', 'total', 'customerAttr_b', 'state'], axis=1)
-x_test = x_test.drop(['hour_b', 'total', 'customerAttr_b', 'state'], axis=1)
+data = data.drop(['hour_b', 'total', 'customerAttr_b', 'zip'], axis=1)
+x_train = x_train.drop(['hour_b', 'total', 'customerAttr_b', 'zip'], axis=1)
+x_test = x_test.drop(['hour_b', 'total', 'customerAttr_b', 'zip'], axis=1)
+
+# Convert to dummies
+x=pd.get_dummies(x_train['state'])
+x_train=pd.concat([x_train,x],axis=1)
+x_train=x_train.drop(['state'], axis=1)
+
+x=pd.get_dummies(x_test['state'])
+x_test=pd.concat([x_test,x],axis=1)
+x_test=x_test.drop(['state'], axis=1)
+
 
 # Normalize data
 x_train = preprocessing.normalize(x_train, norm='l2')
@@ -49,7 +58,7 @@ x_test = preprocessing.normalize(x_test, norm='l2')
 # TODO : Handle Imbalanced data problem
 
 
-# Decision tree
+# # Decision tree
 dtc = DecisionTreeClassifier(max_depth=5)
 dtc.fit(x_train, y_train)
 
