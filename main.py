@@ -82,7 +82,7 @@ print "- Random forest -"
 print "F1_Score: " + str(f1_score(y_validation, y_predicted_validation_rfc, average='macro'))
 print "accuracy: " + str(accuracy_score(y_validation, y_predicted_validation_rfc))
 print "AUC: " + str(roc_auc_score(y_validation, y_predicted_validation_rfc))
-print "recall: " + str(recall_score(y_validation, y_predicted_validation_dtc))
+print "recall: " + str(recall_score(y_validation, y_predicted_validation_rfc))
 
 # Neural network
 # TODO: debug
@@ -95,7 +95,7 @@ print "recall: " + str(recall_score(y_validation, y_predicted_validation_dtc))
 # print "F1_Score: " + str(f1_score(y_validation, y_predicted_validation_nn, average='macro'))
 # print "accuracy: " + str(accuracy_score(y_validation, y_predicted_validation_nn))
 # print "AUC: " + str(roc_auc_score(y_validation, y_predicted_validation_nn))
-# print "recall: " + str(recall_score(y_validation, y_predicted_validation_dtc))
+# print "recall: " + str(recall_score(y_validation, y_predicted_validation_nn))
 
 #
 # Logistic regression
@@ -108,7 +108,7 @@ print "- Logistic regression -"
 print "F1_Score: " + str(f1_score(y_validation, y_predicted_validation_lr, average='macro'))
 print "accuracy: " + str(accuracy_score(y_validation, y_predicted_validation_lr))
 print "AUC: " + str(roc_auc_score(y_validation, y_predicted_validation_lr))
-print "recall: " + str(recall_score(y_validation, y_predicted_validation_dtc))
+print "recall: " + str(recall_score(y_validation, y_predicted_validation_lr))
 
 
 # pd.DataFrame({'frud': y_predicted_test_nn}).to_csv('P2_submission.csv', index =False)
