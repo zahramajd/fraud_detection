@@ -10,6 +10,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import roc_auc_score
+from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
 
 
@@ -92,19 +93,14 @@ print "- Random forest -"
 get_result(y_predicted_validation_rfc)
 
 # Neural network
-# TODO: debug
-# nn = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1)
-# nn.fit(x_train, y_train)
-# y_predicted_validation_nn = nn.predict(x_validation)
+nn = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1)
+nn.fit(x_train, y_train)
+y_predicted_validation_nn = nn.predict(x_validation)
 # y_predicted_test_nn = nn.predict(x_test)
-#
-# print "- Neural network -"
-# print "F1_Score: " + str(f1_score(y_validation, y_predicted_validation_nn, average='macro'))
-# print "accuracy: " + str(accuracy_score(y_validation, y_predicted_validation_nn))
-# print "AUC: " + str(roc_auc_score(y_validation, y_predicted_validation_nn))
-# print "recall: " + str(recall_score(y_validation, y_predicted_validation_nn))
 
-#
+print "- Neural network -"
+get_result(y_predicted_validation_nn)
+
 # Logistic regression
 lr = LogisticRegression()
 lr.fit(x_train, y_train)
