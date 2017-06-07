@@ -1,12 +1,13 @@
 import pandas as pd
 from imblearn.over_sampling import SMOTE
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import roc_auc_score
 from sklearn.tree import DecisionTreeClassifier
+from sklearn import preprocessing
 
 # Load data
 x_train = pd.read_csv("data_fraud/X_train.csv")
@@ -51,9 +52,10 @@ x_test = x_test.drop(['hour_b', 'total', 'customerAttr_b', 'zip', 'state'], axis
 x_validation = x_validation.drop(['hour_b', 'total', 'customerAttr_b', 'zip', 'state'], axis=1)
 
 # Normalize data
-# x_train = preprocessing.normalize(x_train, norm='l2')
-# x_test = preprocessing.normalize(x_test, norm='l2')
-# x_validation = preprocessing.normalize(x_validation, norm='l2')
+min_max_scaler = preprocessing.MinMaxScaler()
+x_train = min_max_scaler.fit_transform(x_train)
+x_test = min_max_scaler.fit_transform(x_test)
+x_validation = min_max_scaler.fit_transform(x_validation)
 
 
 # Handle Imbalanced data problem
@@ -110,5 +112,24 @@ print "accuracy: " + str(accuracy_score(y_validation, y_predicted_validation_lr)
 print "AUC: " + str(roc_auc_score(y_validation, y_predicted_validation_lr))
 print "recall: " + str(recall_score(y_validation, y_predicted_validation_lr))
 
+# Ensemble of classifiers
+
+# Voting classifier
+vc = VotingClassifier(estimators=[('dt', dtc), ('rf', rfc), ('lr', lr)], voting='soft')
+vc.fit(x_train, y_train)
+y_predicted_validation_vc = vc.predict(x_validation)
+y_prediction_test_vc = vc.predict(x_test)
+
+print "- Voting -"
+print "F1_Score: " + str(f1_score(y_validation, y_predicted_validation_vc, average='macro'))
+print "accuracy: " + str(accuracy_score(y_validation, y_predicted_validation_vc))
+print "AUC: " + str(roc_auc_score(y_validation, y_predicted_validation_vc))
+print "recall: " + str(recall_score(y_validation, y_predicted_validation_vc))
+
+# AdaBoost classifier
+
+# Gradient Boosting classifier
+
+# Bagging classifier
 
 # pd.DataFrame({'frud': y_predicted_test_nn}).to_csv('P2_submission.csv', index =False)
