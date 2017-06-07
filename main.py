@@ -2,6 +2,7 @@ import pandas as pd
 from imblearn.over_sampling import SMOTE
 from sklearn import preprocessing
 from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import BaggingClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier
 from sklearn.linear_model import LogisticRegression
@@ -137,11 +138,20 @@ get_result(y_predicted_validation_bdt)
 gb = GradientBoostingClassifier(n_estimators=100, learning_rate=1.0, max_depth=1, random_state=0)
 gb.fit(x_train, y_train)
 y_predicted_validation_gb = gb.predict(x_validation)
-# y_prediction_test_gb = vc.predict(x_test)
+# y_prediction_test_gb = gb.predict(x_test)
 
 print "- Gradient Boosting -"
 get_result(y_predicted_validation_gb)
 
 # Bagging classifier
+bg = BaggingClassifier(base_estimator=DecisionTreeClassifier(), n_estimators=100, random_state=7)
+bg.fit(x_train, y_train)
+y_predicted_validation_bg = bg.predict(x_validation)
+# y_prediction_test_bg = bg.predict(x_test)
+
+print "- Bagging  -"
+get_result(y_predicted_validation_bg)
+
+
 
 # pd.DataFrame({'frud': y_predicted_test_nn}).to_csv('P2_submission.csv', index =False)
