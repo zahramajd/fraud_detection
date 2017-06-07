@@ -8,6 +8,7 @@ from sklearn.metrics import recall_score
 from sklearn.metrics import roc_auc_score
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import preprocessing
+from sklearn.ensemble import AdaBoostClassifier
 
 # Load data
 x_train = pd.read_csv("data_fraud/X_train.csv")
@@ -66,7 +67,7 @@ x_train, y_train = sm.fit_sample(x_train, y_train)
 dtc = DecisionTreeClassifier(max_depth=5)
 dtc.fit(x_train, y_train)
 y_predicted_validation_dtc = dtc.predict(x_validation)
-y_predicted_test_dtc = dtc.predict(x_test)
+#y_predicted_test_dtc = dtc.predict(x_test)
 
 print "- Decision tree -"
 print "F1_Score: " + str(f1_score(y_validation, y_predicted_validation_dtc, average='macro'))
@@ -78,7 +79,7 @@ print "recall: " + str(recall_score(y_validation, y_predicted_validation_dtc))
 rfc = RandomForestClassifier()
 rfc = rfc.fit(x_train, y_train)
 y_predicted_validation_rfc = rfc.predict(x_validation)
-y_prediction_test_rfc = rfc.predict(x_train)
+#y_prediction_test_rfc = rfc.predict(x_train)
 
 print "- Random forest -"
 print "F1_Score: " + str(f1_score(y_validation, y_predicted_validation_rfc, average='macro'))
@@ -104,7 +105,7 @@ print "recall: " + str(recall_score(y_validation, y_predicted_validation_rfc))
 lr = LogisticRegression()
 lr.fit(x_train, y_train)
 y_predicted_validation_lr = lr.predict(x_validation)
-y_prediction_test_lr = lr.predict(x_test)
+#y_prediction_test_lr = lr.predict(x_test)
 
 print "- Logistic regression -"
 print "F1_Score: " + str(f1_score(y_validation, y_predicted_validation_lr, average='macro'))
@@ -118,7 +119,7 @@ print "recall: " + str(recall_score(y_validation, y_predicted_validation_lr))
 vc = VotingClassifier(estimators=[('dt', dtc), ('rf', rfc), ('lr', lr)], voting='soft')
 vc.fit(x_train, y_train)
 y_predicted_validation_vc = vc.predict(x_validation)
-y_prediction_test_vc = vc.predict(x_test)
+#y_prediction_test_vc = vc.predict(x_test)
 
 print "- Voting -"
 print "F1_Score: " + str(f1_score(y_validation, y_predicted_validation_vc, average='macro'))
@@ -127,6 +128,16 @@ print "AUC: " + str(roc_auc_score(y_validation, y_predicted_validation_vc))
 print "recall: " + str(recall_score(y_validation, y_predicted_validation_vc))
 
 # AdaBoost classifier
+bdt = AdaBoostClassifier(DecisionTreeClassifier(max_depth=1),algorithm="SAMME",n_estimators=200)
+bdt.fit(x_train, y_train)
+y_predicted_validation_bdt = vc.predict(x_validation)
+#y_prediction_test_bdt = vc.predict(x_test)
+
+print "- AdaBoost -"
+print "F1_Score: " + str(f1_score(y_validation, y_predicted_validation_bdt, average='macro'))
+print "accuracy: " + str(accuracy_score(y_validation, y_predicted_validation_bdt))
+print "AUC: " + str(roc_auc_score(y_validation, y_predicted_validation_bdt))
+print "recall: " + str(recall_score(y_validation, y_predicted_validation_bdt))
 
 # Gradient Boosting classifier
 
