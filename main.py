@@ -12,6 +12,8 @@ from sklearn.metrics import recall_score
 from sklearn.metrics import roc_auc_score
 from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import fbeta_score
+
 
 
 def get_result(predicted):
@@ -19,6 +21,7 @@ def get_result(predicted):
     print "accuracy: " + str(accuracy_score(y_validation, predicted))
     print "AUC: " + str(roc_auc_score(y_validation, predicted))
     print "recall: " + str(recall_score(y_validation, predicted))
+    print "FBeta: "+str(fbeta_score(y_validation,predicted, average='macro', beta=1.5))
     return
 
 
