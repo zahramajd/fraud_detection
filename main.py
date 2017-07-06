@@ -151,6 +151,4 @@ y_predicted_validation_bg = bg.predict(x_validation)
 print "- Bagging  -"
 get_result(y_predicted_validation_bg)
 
-
-
 # pd.DataFrame({'frud': y_predicted_test_nn}).to_csv('P2_submission.csv', index =False)
